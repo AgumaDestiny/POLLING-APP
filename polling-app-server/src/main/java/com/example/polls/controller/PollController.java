@@ -39,8 +39,8 @@ public class PollController {
 
     @GetMapping
     public PagedResponse<PollResponse> getPolls(@CurrentUser UserPrincipal currentUser,
-                                                @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-                                                @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return pollService.getAllPolls(currentUser, page, size);
     }
 
@@ -59,15 +59,15 @@ public class PollController {
 
     @GetMapping("/{pollId}")
     public PollResponse getPollById(@CurrentUser UserPrincipal currentUser,
-                                    @PathVariable Long pollId) {
+            @PathVariable Long pollId) {
         return pollService.getPollById(pollId, currentUser);
     }
 
     @PostMapping("/{pollId}/votes")
     @PreAuthorize("hasRole('USER')")
     public PollResponse castVote(@CurrentUser UserPrincipal currentUser,
-                         @PathVariable Long pollId,
-                         @Valid @RequestBody VoteRequest voteRequest) {
+            @PathVariable Long pollId,
+            @Valid @RequestBody VoteRequest voteRequest) {
         return pollService.castVoteAndGetUpdatedPoll(pollId, voteRequest, currentUser);
     }
 
